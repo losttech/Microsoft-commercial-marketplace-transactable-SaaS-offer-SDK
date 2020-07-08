@@ -34,9 +34,9 @@ Param(
 #   Make sure to install Az Module before running this script
 #   Install-Module Az
 
-$TempFolderToStoreBacpac = 'C:\AMPSaaSDatabase'
+$TempFolderToStoreBacpac = Join-Path $env:TEMP 'AMPSaaSDatabase'
 $BacpacFileName = "AMPSaaSDB.bacpac"
-$LocalPathToBacpacFile = $TempFolderToStoreBacpac + "\" + $BacpacFileName  
+$LocalPathToBacpacFile = Join-Path $TempFolderToStoreBacpac $BacpacFileName  
 
 # Create a temporary folder
 New-Item -Path $TempFolderToStoreBacpac -ItemType Directory -Force
