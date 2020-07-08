@@ -59,6 +59,7 @@ Select-AzSubscription -SubscriptionId $AzureSubscriptionID
 
 Write-host "Creating a temporary resource group and storage account - $resourceGroupForStorageAccount"
 New-AzResourceGroup -Name $resourceGroupForStorageAccount -Location $location -Force
+try{
 New-AzStorageAccount -ResourceGroupName $resourceGroupForStorageAccount -Name $StorageAccountName -Location $location -SkuName Standard_LRS -Kind StorageV2
 $StorageAccountKey = @((Get-AzStorageAccountKey -ResourceGroupName $resourceGroupForStorageAccount -Name $StorageAccountName).Value)
 $key = $StorageAccountKey[0]
@@ -109,17 +110,17 @@ $ARMTemplateParams = @{
 
 
 # Create RG if not exists
-New-AzResourceGroup -Name $ResourceGroupForDeployment -Location $location -Force
+# New-AzResourceGroup -Name $ResourceGroupForDeployment -Location $location -Force
 
 Write-host "Deploying the ARM template to set up resources"
 # Deploy resources using ARM template
 New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupForDeployment -TemplateFile $PathToARMTemplate -TemplateParameterObject $ARMTemplateParams
 
-
+} finally {
 Write-host "Cleaning things up!"
 # Cleanup : Delete the temporary storage account and the resource group created to host the bacpac file.
 Remove-AzResourceGroup -Name $resourceGroupForStorageAccount -Force 
 Remove-Item –path $TempFolderToStoreBacpac –recurse
 Remove-Item -path "..\..\Publish" -recurse
-
+}
 Write-host "Done!"
