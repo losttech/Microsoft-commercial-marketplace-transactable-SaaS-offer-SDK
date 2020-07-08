@@ -1,0 +1,33 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+#trigger:
+#- master
+
+pool:
+  vmImage: 'windows-latest'
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    arguments: >-
+      -WebAppNamePrefix lt-tf-lic
+      -TenantID 35d053f6-9b6c-4957-babf-ca0e50798d69
+      -ADApplicationID 41cdff0b-aeac-413d-a4b3-53de04a7e1ab
+      -ADApplicationSecret $(AppSecret)
+      -SQLServerName lt-tf-lic
+      -SQLAdminLogin tf-admin
+      -SQLAdminLoginPassword $(SqlPassword)
+      -PublisherAdminUsers "lost@losttech.software,admin@losttech.software"
+      -BacpacUrl https://tf4azure.blob.core.windows.net/dist/AMPSaaSDB.bacpac
+      -ResourceGroupForDeployment TensorFlow-Azure
+      -Location "East US 2"
+      -AzureSubscriptionID "83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387"
+      -PathToARMTemplate deploy.json
+    azureSubscription: 'Azure - Lost Tech(83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387)'
+    scriptType: 'ps'
+    scriptLocation: 'scriptPath'
+    scriptPath: 'deployment\Templates\Deploy.ps1'
+    workingDirectory: 'deployment\Templates'
