@@ -10,7 +10,14 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- task: DotNetCoreCLI@2
+  displayName: "Restore"
+  inputs:
+    command: 'restore'
+    projects: 'src/**/*.csproj'
+    feedsToUse: 'select'
 - task: AzurePowerShell@5
+  displayName: "Deploy"
   inputs:
     azureSubscription: 'Azure - Lost Tech(83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387)'
     ScriptType: 'FilePath'
