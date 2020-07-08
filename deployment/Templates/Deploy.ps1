@@ -45,8 +45,6 @@ $LocalPathToBacpacFile = Join-Path $TempFolderToStoreBacpac $BacpacFileName
 # Create a temporary folder
 New-Item -Path $TempFolderToStoreBacpac -ItemType Directory -Force
 
-Connect-AzAccount
-
 $distStorageAccount = Get-AzStorageAccount -ResourceGroupName $BacpacResourceGroup -Name $BacpacStorageAccount
 Get-AzStorageBlobContent -Context $distStorageAccount.Context -Container $BacpacStorageContainer -Blob $BacpacFileName -Destination $TempFolderToStoreBacpac
 
