@@ -126,7 +126,7 @@
         "[resourceId('Microsoft.Sql/servers', parameters('SQLServerName'))]"
       ],
       "sku": {
-        "name": "B",
+        "name": "Basic",
         "tier": "Basic"
       },
       "kind": "v12.0,user",
