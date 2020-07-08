@@ -21,7 +21,9 @@ steps:
       -SQLAdminLogin tf-admin
       -SQLAdminLoginPassword "$(SqlPassword)"
       -PublisherAdminUsers "lost@losttech.software,admin@losttech.software"
-      -BacpacUrl https://tf4azure.blob.core.windows.net/dist/AMPSaaSDB.bacpac
+      -BacpacResourceGroup TensorFlow-Azure
+      -BacpacStorageAccount tf4azure
+      -BacpacStorageContainer dist
       -ResourceGroupForDeployment TensorFlow-Azure
       -Location "East US 2"
       -AzureSubscriptionID "83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387"

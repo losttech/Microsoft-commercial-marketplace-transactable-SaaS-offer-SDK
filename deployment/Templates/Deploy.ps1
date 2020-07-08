@@ -20,7 +20,11 @@ Param(
    [Parameter(Mandatory=$true)]
    [string]$PublisherAdminUsers, # Provide a list of email addresses (as comma-separated-values) that should be granted access to the Publisher Portal
    [Parameter(Mandatory=$true)]
-   [string]$BacpacUrl, # The url to the blob storage where the SaaS DB bacpac is stored
+   [string]$BacpacResourceGroup, # Name of the resource group to get bacpac from
+   [Parameter(Mandatory=$true)]
+   [string]$BacpacStorageAccount, # Name of the storage account to get bacpac from
+   [Parameter(Mandatory=$true)]
+   [string]$BacpacStorageContainer, # Name of the storage container to get bacpac from
    [Parameter(Mandatory=$true)]
    [string]$ResourceGroupForDeployment, # Name of the resource group to deploy the resources
    [Parameter(Mandatory=$true)]
@@ -41,10 +45,11 @@ $LocalPathToBacpacFile = Join-Path $TempFolderToStoreBacpac $BacpacFileName
 # Create a temporary folder
 New-Item -Path $TempFolderToStoreBacpac -ItemType Directory -Force
 
-$WebClient = New-Object System.Net.WebClient
-$WebClient.DownloadFile($BacpacUrl, $LocalPathToBacpacFile)
-
 Connect-AzAccount
+
+$distStorageAccount = Get-AzStorageAccount -ResourceGroupName $BacpacResourceGroup -Name $BacpacStorageAccount
+Get-AzStorageBlobContent -Context $distStorageAccount.Context -Container $BacpacStorageContainer -Blob $BacpacFileName -Destination $TempFolderToStoreBacpac
+
 $storagepostfix = Get-Random -Minimum 1 -Maximum 1000
 
 $StorageAccountName = "amptmpstorage" + $storagepostfix       #enter storage account name
