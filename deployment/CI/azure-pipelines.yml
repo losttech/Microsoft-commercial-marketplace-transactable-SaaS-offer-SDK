@@ -10,9 +10,12 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- task: AzureCLI@2
+- task: AzurePowerShell@5
   inputs:
-    arguments: >-
+    azureSubscription: 'Azure - Lost Tech(83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387)'
+    ScriptType: 'FilePath'
+    ScriptPath: 'deployment\Templates\Deploy.ps1'
+    ScriptArguments: >-
       -WebAppNamePrefix lt-tf-lic
       -TenantID 35d053f6-9b6c-4957-babf-ca0e50798d69
       -ADApplicationID 41cdff0b-aeac-413d-a4b3-53de04a7e1ab
@@ -28,8 +31,5 @@ steps:
       -Location "East US 2"
       -AzureSubscriptionID "83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387"
       -PathToARMTemplate deploy.json
-    azureSubscription: 'Azure - Lost Tech(83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387)'
-    scriptType: 'ps'
-    scriptLocation: 'scriptPath'
-    scriptPath: 'deployment\Templates\Deploy.ps1'
+    azurePowerShellVersion: 'LatestVersion'
     workingDirectory: 'deployment\Templates'
