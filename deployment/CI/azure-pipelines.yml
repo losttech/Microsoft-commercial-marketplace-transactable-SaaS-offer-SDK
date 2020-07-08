@@ -19,7 +19,7 @@ steps:
       -ADApplicationSecret $(AppSecret)
       -SQLServerName lt-tf-lic
       -SQLAdminLogin tf-admin
-      -SQLAdminLoginPassword $(SqlPassword)
+      -SQLAdminLoginPassword "$(SqlPassword)"
       -PublisherAdminUsers "lost@losttech.software,admin@losttech.software"
       -BacpacUrl https://tf4azure.blob.core.windows.net/dist/AMPSaaSDB.bacpac
       -ResourceGroupForDeployment TensorFlow-Azure
