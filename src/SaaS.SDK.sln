@@ -29,6 +29,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		..\deployment\Templates\Deploy.ps1 = ..\deployment\Templates\Deploy.ps1
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI", "CI", "{C1A7D795-AEF7-47E6-B0F4-539B5F9DA8F1}"
+	ProjectSection(SolutionItems) = preProject
+		..\deployment\CI\azure-pipelines.yml = ..\deployment\CI\azure-pipelines.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +71,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E9778232-4C7C-498A-B8DD-64CFB96B29ED} = {E6F717B3-F09C-439F-988B-E79636FC8485}
 		{19DD344B-F657-431D-91BE-6741F8BAB086} = {E6F717B3-F09C-439F-988B-E79636FC8485}
+		{C1A7D795-AEF7-47E6-B0F4-539B5F9DA8F1} = {E6F717B3-F09C-439F-988B-E79636FC8485}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {133A46EB-AD21-47F0-A771-FF68507E0244}
