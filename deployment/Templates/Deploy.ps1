@@ -3,23 +3,35 @@
 #
 
 Param(  
+   [Parameter(Mandatory=$true)]
    [string]$WebAppNamePrefix, # Prefix used for creating web applications
+   [Parameter(Mandatory=$true)]
    [string]$TenantID, # The value should match the value provided for Active Directory TenantID in the Technical Configuration of the Transactable Offer in Partner Center
+   [Parameter(Mandatory=$true)]
    [string]$ADApplicationID, # The value should match the value provided for Active Directory Application ID in the Technical Configuration of the Transactable Offer in Partner Center
+   [Parameter(Mandatory=$true)]
    [string]$ADApplicationSecret, # Secret key of the AD Application
+   [Parameter(Mandatory=$true)]
    [string]$SQLServerName, # Name of the database server (without database.windows.net)
+   [Parameter(Mandatory=$true)]
    [string]$SQLAdminLogin, # SQL Admin login
+   [Parameter(Mandatory=$true)]
    [string]$SQLAdminLoginPassword, # SQL Admin password
+   [Parameter(Mandatory=$true)]
    [string]$PublisherAdminUsers, # Provide a list of email addresses (as comma-separated-values) that should be granted access to the Publisher Portal
+   [Parameter(Mandatory=$true)]
    [string]$BacpacUrl, # The url to the blob storage where the SaaS DB bacpac is stored
+   [Parameter(Mandatory=$true)]
    [string]$ResourceGroupForDeployment, # Name of the resource group to deploy the resources
+   [Parameter(Mandatory=$true)]
    [string]$Location, # Location of the resource group
+   [Parameter(Mandatory=$true)]
    [string]$AzureSubscriptionID, # Subscription where the resources be deployed
+   [Parameter(Mandatory=$true)]
    [string]$PathToARMTemplate              # Local Path to the ARM Template
 )
 
 #   Make sure to install Az Module before running this script
-
 #   Install-Module Az
 
 $TempFolderToStoreBacpac = 'C:\AMPSaaSDatabase'
