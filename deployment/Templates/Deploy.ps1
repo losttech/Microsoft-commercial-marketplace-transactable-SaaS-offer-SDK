@@ -31,12 +31,26 @@ Param(
    [string]$Location, # Location of the resource group
    [Parameter(Mandatory=$true)]
    [string]$AzureSubscriptionID, # Subscription where the resources be deployed
+
+   [Parameter(Mandatory=$true)]
+   [string]$PublisherPortalZip, # Path to the zip file containing publisher portal
+   [Parameter(Mandatory=$true)]
+   [string]$CustomerPortalZip, # Path to the zip file containing customer portal
+
    [Parameter(Mandatory=$true)]
    [string]$PathToARMTemplate              # Local Path to the ARM Template
 )
 
 #   Make sure to install Az Module before running this script
 #   Install-Module Az
+
+if (!(Test-Path $PublisherPortalZip -PathType Leaf)){
+    throw ("Missing file: " + $PublisherPortalZip)
+}
+
+if (!(Test-Path $CustomerPortalZip -PathType Leaf)){
+    throw ("Missing file: " + $CustomerPortalZip)
+}
 
 $TempFolderToStoreBacpac = Join-Path $env:TEMP 'AMPSaaSDatabase'
 $BacpacFileName = "AMPSaaSDB.bacpac"
@@ -76,20 +90,9 @@ $URLToBacpacFromStorage = (Get-AzStorageBlob -blob $BlobName -Container $Contain
 
 Write-host "Uploaded the bacpac file to $URLToBacpacFromStorage"    
 
-
-Write-host "Prepare publish files for the web application"
-
-Write-host "Preparing the publish files for PublisherPortal"  
-dotnet publish ..\..\src\SaaS.SDK.PublisherSolution\SaaS.SDK.PublisherSolution.csproj -c debug -o ..\..\Publish\PublisherPortal
-Compress-Archive -Path ..\..\Publish\PublisherPortal\* -DestinationPath ..\..\Publish\PublisherPortal.zip -Force
-
-Write-host "Preparing the publish files for CustomerPortal"
-dotnet publish ..\..\src\SaaS.SDK.CustomerProvisioning\SaaS.SDK.CustomerProvisioning.csproj -c debug -o ..\..\Publish\CustomerPortal
-Compress-Archive -Path ..\..\Publish\CustomerPortal\* -DestinationPath ..\..\Publish\CustomerPortal.zip -Force
-
 Write-host "Upload published files to storage account"
-Set-AzStorageBlobContent -File "..\..\Publish\PublisherPortal.zip" -Container $ContainerName -Blob "PublisherPortal.zip" -Context $ctx -Force
-Set-AzStorageBlobContent -File "..\..\Publish\CustomerPortal.zip" -Container $ContainerName -Blob "CustomerPortal.zip" -Context $ctx -Force
+Set-AzStorageBlobContent -File $PublisherPortalZip -Container $ContainerName -Blob "PublisherPortal.zip" -Context $ctx -Force
+Set-AzStorageBlobContent -File $CustomerPortalZip -Container $ContainerName -Blob "CustomerPortal.zip" -Context $ctx -Force
 
 # The base URI where artifacts required by this template are located
 $PathToWebApplicationPackages = ((Get-AzStorageContainer -Container $ContainerName -Context $ctx).CloudBlobContainer.uri.AbsoluteUri)
@@ -124,6 +127,5 @@ Write-host "Cleaning things up!"
 # Cleanup : Delete the temporary storage account and the resource group created to host the bacpac file.
 Remove-AzResourceGroup -Name $resourceGroupForStorageAccount -Force 
 Remove-Item –path $TempFolderToStoreBacpac –recurse
-Remove-Item -path "..\..\Publish" -recurse
 }
 Write-host "Done!"

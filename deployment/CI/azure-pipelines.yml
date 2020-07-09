@@ -16,6 +16,27 @@ steps:
     command: 'restore'
     projects: 'src/**/*.csproj'
     feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  displayName: "Build Publisher Portal"
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'src/SaaS.SDK.PublisherSolution/SaaS.SDK.PublisherSolution.csproj'
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/Publish'
+    zipAfterPublish: True
+- task: DotNetCoreCLI@2
+  displayName: "Build Customer Portal"
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: 'src/SaaS.SDK.CustomerProvisioning/SaaS.SDK.CustomerProvisioning.csproj'
+    arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/Publish'
+    zipAfterPublish: True
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/Publish'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
 - task: AzurePowerShell@5
   displayName: "Deploy"
   inputs:
@@ -31,12 +52,14 @@ steps:
       -SQLAdminLogin tf-admin
       -SQLAdminLoginPassword "$(SqlPassword)"
       -PublisherAdminUsers "lost@losttech.software,admin@losttech.software"
-      -BacpacResourceGroup TensorFlow-Azure
+      -BacpacResourceGroup Dist-East-US-2
       -BacpacStorageAccount tf4azure
       -BacpacStorageContainer dist
       -ResourceGroupForDeployment TensorFlow-Azure
       -Location "East US 2"
       -AzureSubscriptionID "83e1ddd8-09a3-4c7b-8fe4-2e6d7cda4387"
+      -PublisherPortalZip $(Build.ArtifactStagingDirectory)\Publish\SaaS.SDK.PublisherSolution.zip
+      -CustomerPortalZip $(Build.ArtifactStagingDirectory)\Publish\SaaS.SDK.CustomerProvisioning.zip
       -PathToARMTemplate deploy.json
     azurePowerShellVersion: 'LatestVersion'
     workingDirectory: 'deployment\Templates'
