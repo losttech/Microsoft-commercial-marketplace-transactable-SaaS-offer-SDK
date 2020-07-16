@@ -288,6 +288,7 @@
           },
           "properties": {
             "packageUri": "[uri(concat(parameters('PathToWebApplicationPackages'),'/'), concat('CustomerPortal.zip'))]",
+            "AppOffline": true,
             "dbType": "None"
           }
         }
@@ -405,6 +406,7 @@
           },
           "properties": {
             "packageUri": "[uri(concat(parameters('PathToWebApplicationPackages'),'/'), concat('PublisherPortal.zip'))]",
+            "AppOffline": true,
             "dbType": "None"
           }
         }
