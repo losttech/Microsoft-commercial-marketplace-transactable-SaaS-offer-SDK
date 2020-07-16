@@ -1,0 +1,39 @@
+﻿@*@using Microsoft.Marketplace.SaaS.SDK.Services.Models;*@
+@using Microsoft.Marketplace.SaasKit.Client.DataAccess.Entities;
+@model List<Microsoft.Marketplace.SaasKit.Client.DataAccess.Entities.WebJobSubscriptionStatus>
+
+<div class="modal-dialog modal-lg mt200">
+    <div class="modal-content">
+        <div class="modal-header header-bg">
+            <h4><span class="cm-section-heading"> Activity Log</span></h4>
+            <button type="button" class="close text-right" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <table class="table-bordered table-responsive cm-table">
+                <thead class="cm-table-head">
+                    <tr>
+                        <th width="20%">Activity Log Time</th>
+                        <th width="20%">Subscription Status</th>
+                        <th width="10%">Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var log in Model)
+                    {
+                        <tr>
+                            <td class="text-left">
+                                @if (log.InsertDate != null)
+                                {@log.InsertDate.Value.ToString("MM/dd/yyyy hh:mm tt")}
+                            </td>
+                            <td class="text-left">@log.SubscriptionStatus</td>
+                            <td class="text-left">@log.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span>Cancel</button>
+                </div>*@
+        </div>
+    </div>
+</div>

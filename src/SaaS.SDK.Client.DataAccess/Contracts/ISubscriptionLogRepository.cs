@@ -25,5 +25,7 @@
         /// <param name="errorDescription">The error description.</param>
         /// <param name="subscriptionStatus">The subscription status.</param>
         void LogStatusDuringProvisioning(Guid subscriptionID, string errorDescription, string subscriptionStatus);
+
+        IEnumerable<WebJobSubscriptionStatus> GetStatusLogBySubscriptionId(Guid subscriptionId);
     }
 }

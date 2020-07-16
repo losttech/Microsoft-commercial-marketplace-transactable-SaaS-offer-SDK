@@ -99,5 +99,8 @@
             this.context.WebJobSubscriptionStatus.Add(status);
             this.context.SaveChanges();
         }
+
+        public IEnumerable<WebJobSubscriptionStatus> GetStatusLogBySubscriptionId(Guid subscriptionId)
+            => this.context.WebJobSubscriptionStatus.Where(s => s.SubscriptionId == subscriptionId);
     }
 }

@@ -293,6 +293,21 @@
             }
         }
 
+        public IActionResult SubscriptionStatusLogDetail(Guid subscriptionId) {
+            this.logger.LogInformation("Home Controller / RecordUsage : subscriptionId: {0}", JsonSerializer.Serialize(subscriptionId));
+            try {
+                if (this.User.Identity.IsAuthenticated) {
+                    var statusLog = this.subscriptionLogRepository.GetStatusLogBySubscriptionId(subscriptionId).ToList();
+                    return this.View(statusLog);
+                } else {
+                    return this.RedirectToAction(nameof(this.Index));
+                }
+            } catch (Exception ex) {
+                this.logger.LogInformation("Message:{0} :: {1}   ", ex.Message, ex.InnerException);
+                return this.View("Error", ex);
+            }
+        }
+
         /// <summary>
         /// Subscriptions the details.
         /// </summary>
