@@ -20,5 +20,7 @@
         /// </summary>
         /// <returns>List of key value pairs stored in application configuration.</returns>
         IEnumerable<ApplicationConfiguration> GetAll();
+
+        void SetValueById(int id, string value);
     }
 }

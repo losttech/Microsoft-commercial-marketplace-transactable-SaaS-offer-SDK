@@ -9,6 +9,7 @@
     using Microsoft.Marketplace.SaaS.SDK.Services.Utilities;
     using Microsoft.Marketplace.Saas.Web.Controllers;
     using Microsoft.Marketplace.SaasKit.Client.DataAccess.Contracts;
+    using Microsoft.Marketplace.SaasKit.Client.DataAccess.Entities;
 
     [ServiceFilter(typeof(KnownUserAttribute))]
     public class ConfigController : BaseController {
@@ -28,6 +29,15 @@
                 this.logger.LogError(ex, ex.Message);
                 return this.View("Error", ex);
             }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateSettings(List<ApplicationConfiguration> settings) {
+            foreach (var update in settings) {
+                this.configRepository.SetValueById(update.Id, update.Value);
+            }
+
+            return this.RedirectToAction("Index");
         }
     }
 }

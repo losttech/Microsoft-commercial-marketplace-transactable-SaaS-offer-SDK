@@ -46,5 +46,12 @@
         {
             return this.context.ApplicationConfiguration;
         }
+
+        public void SetValueById(int id, string value) {
+            var setting = this.context.ApplicationConfiguration.Single(s => s.Id == id);
+            setting.Value = value;
+            this.context.ApplicationConfiguration.Update(setting);
+            this.context.SaveChanges();
+        }
     }
 }
