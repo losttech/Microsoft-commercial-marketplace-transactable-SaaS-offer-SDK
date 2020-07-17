@@ -1,0 +1,64 @@
+﻿@using Microsoft.Marketplace.SaasKit.Client.DataAccess.Entities
+@model List<ApplicationConfiguration>
+@{
+    ViewData["Title"] = "Config";
+}
+
+<div class="container">
+    <div class="">
+        <div class="card-body">
+            <div class="text-left">
+                <span class="cm-section-heading">Config</span>
+            </div>
+            <div id="myModal">
+                @if (Model != null && Model.Any()) {
+                    <div class="table-responsive mt20">
+                        <table class="table table-bordered dt-responsive cm-table" width="100%" cellspacing="0">
+                            <thead class="cm-table-head">
+                                <tr>
+                                    <th>Setting</th>
+                                    <th>Value</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model) {
+                                    <tr>
+                                        <td class="text-left">
+                                            @item.Name
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Value
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Description
+                                        </td>
+                                        <td class="text-left cm-ellipsis">
+                                            <div class="nav-item dropdown">
+                                                <a class="nav-link dropdown cm-link-button" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></a>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                                    <a class="dropdown-item cm-dropdown-option" data-target="#myModal" onclick="ViewOfferdetailsById('@item.Id')">Edit</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                } else {
+
+                    <div class="cm-panel-default mt40">
+                        <div class="p-3 mr420">
+                            <p>
+                                You do not have any settings set!
+                            </p>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
