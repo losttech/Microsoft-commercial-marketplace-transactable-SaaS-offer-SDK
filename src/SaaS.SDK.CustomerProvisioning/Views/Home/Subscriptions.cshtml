@@ -55,8 +55,8 @@
                                             </td>
                                             <td class="text-left">@subscription.SubscriptionStatus</td>
                                             <td class="text-left  cm-ellipsis">
-                                                <div class="nav-item dropdown">
-                                                    <a class="nav-link dropdown cm-link-button" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></a>
+                                                <div class="nav-item dropup">
+                                                    <a class="nav-link dropup cm-link-button" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i></a>
                                                     <div class="dropdown-menu" aria-labelledby="dropdown01">
                                                         @if (subscription.SubscriptionStatus == SubscriptionStatusEnumExtension.Subscribed && Model.IsAutomaticProvisioningSupported == true)
                                                         {
